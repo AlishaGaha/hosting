@@ -25,6 +25,7 @@ Route::get('/plans/create', 'PlanController@create')->name('plans.create');
 Route::post('/plans', 'PlanController@store')->name('plans.store');
 Route::get('/plans/{slug}/edit', 'PlanController@edit')->name('plans.edit');
 Route::put('/plans/{slug}', 'PlanController@update')->name('plans.update');
+Route::delete('/plans/{slug}', 'PlanController@destroy')->name('plans.destroy');
 Route::get('/clients', 'ClientController@index')->name('clients');
 Route::get('/clients/create', 'ClientController@create')->name('clients.create');
 Route::post('/clients', 'ClientController@store')->name('clients.store');

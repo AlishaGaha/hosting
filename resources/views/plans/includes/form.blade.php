@@ -14,13 +14,13 @@
     <legend class="col-form-label col-sm-2 float-sm-left pt-0">Status</legend>
     <div class="col-sm-10">
       <div class="form-check">
-        <input class="form-check-input" type="radio" name="status" id="active" value="1" {!! $plan->status == 1 ? 'checked' : '' !!} checked>
+        <input class="form-check-input" type="radio" name="status" id="active" value="1" {!! isset($plan) && $plan->status == 1 ? 'checked' : '' !!} checked>
         <label class="form-check-label" for="active">
           Active
         </label>
       </div>
       <div class="form-check">
-        <input class="form-check-input" type="radio" name="status" id="inactive" value="0" {!! $plan->status == 0 ? 'checked' : '' !!}>
+        <input class="form-check-input" type="radio" name="status" id="inactive" value="0" {!! isset($plan) && $plan->status == 0 ? 'checked' : '' !!}>
         <label class="form-check-label" for="inactive">
           Inactive
         </label>

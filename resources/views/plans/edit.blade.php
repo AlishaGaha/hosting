@@ -3,7 +3,7 @@
 @section('content')
     <div class="container">
         <div>
-            <a href="{{ route('plans') }}" class="btn btn-sm btn-primary">List of Plan</a>
+            <a href="{{ route('plans') }}" class="btn btn-primary">List of Plan</a>
         </div>
         <div class="row">
             <div class="col-md-6 offset-md-3">

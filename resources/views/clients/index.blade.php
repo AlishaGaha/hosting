@@ -3,7 +3,7 @@
 @section('content')
     <div class="container">
         @include('includes.flash_notification')
-        <a href="{{ route('clients.create') }}" class="btn btn-sm btn-primary">
+        <a href="{{ route('clients.create') }}" class="btn btn-primary">
             Add Client
         </a>
         <table class="table table-striped">
@@ -40,7 +40,7 @@
                         <td>{{ $client->annual_maintenance_cost_type }}</td>
                         <td>{{ $client->annual_maintenance_cost }}</td>
                         <td>
-                            <a href="{{ route('clients.edit', $client->id) }}" class="btn btn-sm btn-success">Edit</a>
+                            <a href="{{ route('clients.edit', $client->id) }}" class="btn btn-success">Edit</a>
 
                         </td>
                     </tr>

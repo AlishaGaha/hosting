@@ -55,4 +55,15 @@ class PlanController extends Controller
         $plan->update($addPlanRequest->validated());
         return redirect()->route('plans')->with('success', 'Plan updated successfully!');
     }
+
+    public function destroy($slug)
+    {
+        $plan = $this->model->where('slug', $slug)
+            ->firstOrFail();
+        if(!$plan) {
+            return redirect()->route('plans')->with('danger', 'Invalid Request!');
+        }
+        $plan->delete();
+        return redirect()->back()->with('success', 'Plan deleted successfully!');
+    }
 }
