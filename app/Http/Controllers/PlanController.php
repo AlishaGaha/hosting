@@ -34,7 +34,7 @@ class PlanController extends Controller
         $validatedData = $addPlanRequest->validated();
         $validatedData['slug'] = Str::slug($validatedData['title']);
         $this->model->create($validatedData);
-        return redirect()->route('plans')->with('success', 'Plan added successfully!');
+        return redirect()->route('plans.index')->with('success', 'Plan added successfully!');
     }
 
     public function edit($slug)
@@ -50,10 +50,10 @@ class PlanController extends Controller
         $plan = $this->model->where('slug', $slug)
             ->firstOrFail();
         if(!$plan) {
-            return redirect()->route('plans')->with('danger', 'Invalid Request!');
+            return redirect()->route('plans.index')->with('danger', 'Invalid Request!');
         }
         $plan->update($addPlanRequest->validated());
-        return redirect()->route('plans')->with('success', 'Plan updated successfully!');
+        return redirect()->route('plans.index')->with('success', 'Plan updated successfully!');
     }
 
     public function destroy($slug)
@@ -61,7 +61,7 @@ class PlanController extends Controller
         $plan = $this->model->where('slug', $slug)
             ->firstOrFail();
         if(!$plan) {
-            return redirect()->route('plans')->with('danger', 'Invalid Request!');
+            return redirect()->route('plans.index')->with('danger', 'Invalid Request!');
         }
         $plan->delete();
         return redirect()->back()->with('success', 'Plan deleted successfully!');

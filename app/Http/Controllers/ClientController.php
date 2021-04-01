@@ -48,7 +48,7 @@ class ClientController extends Controller
     {
         $validatedData = $addClientRequest->validated();
         $this->model->create($validatedData);
-        return redirect()->route('clients')->with('success', 'Client added successfully!');
+        return redirect()->route('clients.index')->with('success', 'Client added successfully!');
     }
     public function edit($id)
     {
@@ -76,6 +76,6 @@ class ClientController extends Controller
         }
         $validatedData = $editClientRequest->validated();
         $client->update($validatedData);
-        return redirect()->route('clients')->with('success', 'Client updated successfully!');
+        return redirect()->route('clients.index')->with('success', 'Client updated successfully!');
     }
 }

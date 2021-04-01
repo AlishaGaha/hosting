@@ -51,12 +51,12 @@
                         @else
                             <li class="nav-item dropdown d-flex flex-row">
                                 <div>
-                                    <a href="{{ route('clients') }}" class="btn btn-primary">
+                                    <a href="{{ route('clients.index') }}" class="btn btn-primary">
                                        Clients
                                     </a>
                                 </div>
                                 <div>
-                                    <a href="{{ route('plans') }}" class="btn btn-success">
+                                    <a href="{{ route('plans.index') }}" class="btn btn-success">
                                         Hosting Plans
                                     </a>
                                 </div>
