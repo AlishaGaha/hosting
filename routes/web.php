@@ -29,6 +29,15 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::resource('plans', 'PlanController')->except([
     'show'
 ]);
+Route::resource('hosting-renewal', 'HostingRenewalController')->except([
+    'show'
+]);
+Route::resource('domain-renewal', 'DomainController')->except([
+    'show'
+]);
+Route::resource('blogs', 'BlogController')->except([
+    'show'
+]);
 Route::resource('clients', 'ClientController')->except([
     'show',
     'destroy'

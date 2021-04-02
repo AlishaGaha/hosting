@@ -13,15 +13,17 @@ use App\Mail\Gmail;
 class SendEmailJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
-    protected $client;
+    protected $email;
+    // protected $emailClass;
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($client)
+    public function __construct($email)
     {
-        $this->client = $client;
+        $this->email = $email;
+        // $this->emailClass = $emailClass;
     }
 
     /**
@@ -36,6 +38,6 @@ class SendEmailJob implements ShouldQueue
             'body' => 'Your subscription for domain and hosting service is expired. Please contain to renew it.'
         ];
 
-        Mail::to($this->client->email)->send(new Gmail($details));
+        Mail::to($this->email)->send(new Gmail($details));
     }
 }

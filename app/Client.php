@@ -4,6 +4,8 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Plan;
+use App\DomainRenewal;
+use App\HostingRenewal;
 
 class Client extends Model
 {
@@ -14,8 +16,8 @@ class Client extends Model
         'email',
         'contact_number',
         'address',
+        'service_type',
         'domain_name',
-        'expiry_date',
         'domain_renewal',
         'plan_id',
         'hosting_renewal',
@@ -29,5 +31,13 @@ class Client extends Model
     public function plan()
     {
         return $this->belongsTo(Plan::class, 'plan_id', 'id');
+    }
+    public function domainRenewal()
+    {
+        return $this->belongsTo(DomainRenewal::class, 'domain_renewal_id', 'id');
+    }
+    public function hostingRenewal()
+    {
+        return $this->belongsTo(HostingRenewal::class, 'hosting_renewal_id', 'id');
     }
 }

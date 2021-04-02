@@ -6,6 +6,7 @@ use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use App\Client;
 use App\Jobs\SendEmailJob;
+use App\Console\Commands\NotifyClients;
 
 class Kernel extends ConsoleKernel
 {
@@ -15,7 +16,7 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        //
+        'App\Console\Commands\NotifyClients'
     ];
 
     /**
@@ -26,7 +27,8 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $clients = Client::select('id', 'email', 'hosting_renewal', 'domain_renewal', 'created_at')->get();
+        $schedule->command('notify:clients')
+            ->everyMinute();
         // if(isset($clients)) {
         //     foreach( $clients as $client) {
         //         if($client->domain_renewal == 'auto' || $client->hosting_renewal == 'auto') {
@@ -34,18 +36,18 @@ class Kernel extends ConsoleKernel
         //         }
         //     }
         // }
-        $clients = Client::select('id', 'email', 'hosting_renewal', 'domain_renewal', 'created_at')->get();
-        if(isset($clients)) {
-            foreach( $clients as $client) {
-                if($client->domain_renewal == 'auto' || $client->hosting_renewal == 'auto') {
-                    $schedule->job(new SendEmailJob($client))->yearlyOn($client->created_at->format('d F'), '10:00');
-                } else if($client->domain_renewal == '2 years' || $client->domain_renewal == '2 years') {
-                    $schedule->job(new SendEmailJob($client))->everyTwoYears($client->created_at->format('d F'), '10:00');
-                } else if($client->domain_renewal == '5 years' || $client->domain_renewal == '5 years') {
-                    $schedule->job(new SendEmailJob($client))->everyFiveYears($client->created_at->format('d F'), '10:00');
-                }
-            }
-        }
+        // $clients = Client::select('id', 'email', 'hosting_renewal', 'domain_renewal', 'created_at')->get();
+        // if(isset($clients)) {
+        //     foreach( $clients as $client) {
+        //         if($client->domain_renewal == 'auto' || $client->hosting_renewal == 'auto') {
+        //             $schedule->job(new SendEmailJob($client))->yearlyOn($client->created_at->format('d F'), '10:00');
+        //         } else if($client->domain_renewal == '2 years' || $client->hosting_renewal == '2 years') {
+        //             $schedule->job(new SendEmailJob($client))->everyTwoYears($client->created_at->format('d F'), '10:00');
+        //         } else if($client->domain_renewal == '5 years' || $client->hosting_renewal == '5 years') {
+        //             $schedule->job(new SendEmailJob($client))->everyFiveYears($client->created_at->format('d F'), '10:00');
+        //         }
+        //     }
+        // }
     }
 
     /**

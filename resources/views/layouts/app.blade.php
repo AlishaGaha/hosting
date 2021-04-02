@@ -51,6 +51,11 @@
                         @else
                             <li class="nav-item dropdown d-flex flex-row">
                                 <div>
+                                    <a href="{{ route('blogs.index') }}" class="btn btn-primary">
+                                       Blogs
+                                    </a>
+                                </div>
+                                <div>
                                     <a href="{{ route('clients.index') }}" class="btn btn-primary">
                                        Clients
                                     </a>
