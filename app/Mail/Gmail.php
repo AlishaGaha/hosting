@@ -11,14 +11,16 @@ class Gmail extends Mailable
 {
     use Queueable, SerializesModels;
     public $details;
+    public $name;
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($details)
+    public function __construct($details, $name)
     {
         $this->details = $details;
+        $this->name = $name;
     }
 
     /**

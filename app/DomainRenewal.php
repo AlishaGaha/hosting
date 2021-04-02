@@ -14,8 +14,8 @@ class DomainRenewal extends Model
         'status'
     ];
 
-    public function clients()
-    {
-        return $this->belongsTo(Client::class, 'domain_renewal_id', 'id');
-    }
+    // public function clients()
+    // {
+    //     return $this->belongsTo(Client::class, 'domain_renewal_id', 'id');
+    // }
 }

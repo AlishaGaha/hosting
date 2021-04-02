@@ -7,6 +7,7 @@ use App\Client;
 use App\Plan;
 use App\Http\Requests\Client\AddClientRequest;
 use App\Http\Requests\Client\EditClientRequest;
+use Carbon\Carbon;
 
 class ClientController extends Controller
 {
@@ -32,11 +33,15 @@ class ClientController extends Controller
     }
     public function create()
     {
+        $serviceType = $this->model::SERVICE_TYPE;
+        $renewalType = $this->model::RENEWAL_TYPE;
         $domainRenewal = $this->model::DOMAIN_RENEWAL;
         $hostingRenewal = $this->model::HOSTING_RENEWAL;
         $annualMaintenanceCostType = $this->model::ANNUAL_MAINTENACE_COST_TYPE;
         $plans = Plan::select('id', 'slug', 'title')->where('status', 1)->get();
         return view('clients.create', compact(
+            'serviceType',
+            'renewalType',
             'domainRenewal',
             'hostingRenewal',
             'annualMaintenanceCostType',
@@ -56,13 +61,13 @@ class ClientController extends Controller
         if(!$client) {
             return redirect()->back()->with('danger', 'Invalid Request!');
         }
-        $domainRenewal = $this->model::DOMAIN_RENEWAL;
-        $hostingRenewal = $this->model::HOSTING_RENEWAL;
+        $serviceType = $this->model::SERVICE_TYPE;
+        $renewalType = $this->model::RENEWAL_TYPE;
         $annualMaintenanceCostType = $this->model::ANNUAL_MAINTENACE_COST_TYPE;
         $plans = Plan::select('id', 'slug', 'title')->where('status', 1)->get();
         return view('clients.edit', compact(
-            'domainRenewal',
-            'hostingRenewal',
+            'serviceType',
+            'renewalType',
             'annualMaintenanceCostType',
             'plans',
             'client'

@@ -14,8 +14,8 @@ class HostingRenewal extends Model
         'status'
     ];
 
-    public function clients()
-    {
-        return $this->belongsTo(Client::class, 'hosting_renewal_id', 'id');
-    }
+    // public function clients()
+    // {
+    //     return $this->belongsTo(Client::class, 'hosting_renewal_id', 'id');
+    // }
 }

@@ -51,11 +51,6 @@
                         @else
                             <li class="nav-item dropdown d-flex flex-row">
                                 <div>
-                                    <a href="{{ route('blogs.index') }}" class="btn btn-primary">
-                                       Blogs
-                                    </a>
-                                </div>
-                                <div>
                                     <a href="{{ route('clients.index') }}" class="btn btn-primary">
                                        Clients
                                     </a>
@@ -93,5 +88,8 @@
             @yield('content')
         </main>
     </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    @yield('scripts')
 </body>
 </html>

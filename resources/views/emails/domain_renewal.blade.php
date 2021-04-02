@@ -4,8 +4,10 @@
     <title>Domain and Hosting Management</title>
 </head>
 <body>
-    <h1>{{ $details['title'] }}</h1>
+    <p>Dear {{$name}},</p>
+    <h3 style="text-align: center;">{{ $details['title'] }}</h3>
     <p>{{ $details['body'] }}</p>
+    <p>With Regards,<br/> An4Soft Pvt. Ltd.,<br/>Mid Baneshwor, Kathmandu</p>
 </body>
 </html>
 {{-- @component('mail::message')

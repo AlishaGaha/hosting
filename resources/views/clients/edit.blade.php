@@ -23,3 +23,7 @@
         </div>
     </div>
 @endsection
+
+@section('scripts')
+    @include('clients.includes.partials.form_scripts')
+@endsection

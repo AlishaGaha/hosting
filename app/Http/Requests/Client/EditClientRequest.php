@@ -31,11 +31,13 @@ class EditClientRequest extends FormRequest
             'email' => 'required|string|max:50|email|unique:clients,email,'.$this->id,
             'contact_number' => 'required|string|min:10|max:20',
             'address' => 'nullable|string|max:255',
+            'service_type' => ['required', Rule::in(Client::SERVICE_TYPE)],
             'domain_name' => 'nullable|string|max:255',
-            'expiry_date' => 'nullable|required_with:domain_name',
-            'domain_renewal' => ['nullable', Rule::in(Client::DOMAIN_RENEWAL), 'required_with:domain_name'],
+            'domain_renewal' => 'nullable|numeric|min:1|required_with:domain_name',
+            'domain_renewal_type' => ['nullable', Rule::in(Client::RENEWAL_TYPE), 'required_with:domain_name'],
             'plan_id' => 'nullable|exists:plans,id',
-            'hosting_renewal' => ['nullable', Rule::in(Client::HOSTING_RENEWAL), 'required_with:plan_id'],
+            'hosting_renewal' => 'nullable|numeric|min:1|required_with:plan_id',
+            'hosting_renewal_type' => ['nullable', Rule::in(Client::RENEWAL_TYPE), 'required_with:plan_id'],
             'annual_maintenance_cost_type' => ['nullable', Rule::in(Client::ANNUAL_MAINTENACE_COST_TYPE), 'required_with:domain_name,plan_id'],
             'annual_maintenance_cost' => 'nullable|numeric|min:1|required_with:domain_name,plan_id'
         ];

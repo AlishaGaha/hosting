@@ -6,7 +6,7 @@ use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use App\Client;
 use App\Jobs\SendEmailJob;
-use App\Console\Commands\NotifyClients;
+use Carbon\Carbon;
 
 class Kernel extends ConsoleKernel
 {
@@ -16,8 +16,13 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        'App\Console\Commands\NotifyClients'
+        // 'App\Console\Commands\NotifyClients'
     ];
+
+    protected function scheduleTimezone()
+    {
+        return 'Asia/Kathmandu';
+    }
 
     /**
      * Define the application's command schedule.
@@ -27,27 +32,40 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('notify:clients')
-            ->everyMinute();
-        // if(isset($clients)) {
-        //     foreach( $clients as $client) {
-        //         if($client->domain_renewal == 'auto' || $client->hosting_renewal == 'auto') {
-        //             $schedule->job(new SendEmailJob($client))->everyTwoMinutes();
-        //         }
-        //     }
-        // }
-        // $clients = Client::select('id', 'email', 'hosting_renewal', 'domain_renewal', 'created_at')->get();
-        // if(isset($clients)) {
-        //     foreach( $clients as $client) {
-        //         if($client->domain_renewal == 'auto' || $client->hosting_renewal == 'auto') {
-        //             $schedule->job(new SendEmailJob($client))->yearlyOn($client->created_at->format('d F'), '10:00');
-        //         } else if($client->domain_renewal == '2 years' || $client->hosting_renewal == '2 years') {
-        //             $schedule->job(new SendEmailJob($client))->everyTwoYears($client->created_at->format('d F'), '10:00');
-        //         } else if($client->domain_renewal == '5 years' || $client->hosting_renewal == '5 years') {
-        //             $schedule->job(new SendEmailJob($client))->everyFiveYears($client->created_at->format('d F'), '10:00');
-        //         }
-        //     }
-        // }
+        $clients = Client::select('id', 'first_name', 'email', 'hosting_renewal', 'hosting_renewal_type', 'domain_renewal', 'domain_renewal_type', 'updated_at')->get();
+        $currentDate = Carbon::now()->format('Y-m-d');
+        if(isset($clients)) {
+            foreach( $clients as $client) {
+                if($client->domain_renewal_type == 'Month' || $client->hosting_renewal_type == 'Month') {
+                    $expiry_date = isset($client->domain_renewal) ?
+                        $client->updated_at->format('Y-m-d')
+                        :
+                        $client->updated_at->format('Y-m-d');
+                    // $expiry_date = isset($client->domain_renewal) ?
+                    //     $client->updated_at->addMonths($client->domain_renewal)->subDays(5)->format('Y-m-d')
+                    //     :
+                    //     $client->updated_at->addMonths($client->hosting_renewal)->subDays(5)->format('Y-m-d');
+                    if($currentDate == $expiry_date) {
+                        // $schedule->job(new SendEmailJob($client->email, $client->first_name))->dailyAt('9:00');
+                        $schedule->job(new SendEmailJob($client->email, $client->first_name))->everyMinute();
+                    }
+                    // $schedule->job(new SendEmailJob($client->email))->monthlyOn($client->updated_at->format('d'), '9:00');
+                } else if($client->domain_renewal_type == 'Year' || $client->hosting_renewal_type == 'Year') {
+                    $expiry_date = isset($client->domain_renewal) ?
+                        $client->updated_at->format('Y-m-d')
+                        :
+                        $client->updated_at->format('Y-m-d');
+                    // $expiry_date = isset($client->domain_renewal) ?
+                    //     $client->updated_at->addYears($client->domain_renewal)->subMonths(1)->format('Y-m-d')
+                    //     :
+                    //     $client->updated_at->addYears($client->hosting_renewal)->subMonths(1)->format('Y-m-d');
+                    if($currentDate == $expiry_date) {
+                        // $schedule->job(new SendEmailJob($client->email, $client->first_name))->dailyAt('9:00');
+                        $schedule->job(new SendEmailJob($client->email, $client->first_name))->everyMinute();
+                    }
+                }
+            }
+        }
     }
 
     /**
