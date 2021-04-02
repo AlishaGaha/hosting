@@ -29,8 +29,6 @@ class Client extends Model
 
     const SERVICE_TYPE = ['Both', 'Domain', 'Hosting'];
     const RENEWAL_TYPE = ['Month', 'Year'];
-    const DOMAIN_RENEWAL = ['auto', '2 years', '5 years'];
-    const HOSTING_RENEWAL = ['auto', '2 years', '5 years'];
     const ANNUAL_MAINTENACE_COST_TYPE = ['p', 'f'];
     public function plan()
     {

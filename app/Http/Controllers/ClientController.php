@@ -20,14 +20,33 @@ class ClientController extends Controller
 
     public function index()
     {
-        $domainRenewal = $this->model::DOMAIN_RENEWAL;
-        $hostingRenewal = $this->model::HOSTING_RENEWAL;
-        $annualMaintenanceCostType = $this->model::ANNUAL_MAINTENACE_COST_TYPE;
-        $clients = $this->model->select('*')->orderBy('created_at', 'DESC')->paginate(10);
+        // $domainRenewal = $this->model::DOMAIN_RENEWAL;
+        // $hostingRenewal = $this->model::HOSTING_RENEWAL;
+        // $annualMaintenanceCostType = $this->model::ANNUAL_MAINTENACE_COST_TYPE;
+        $clients = $this->model->select([
+            'id',
+            'first_name',
+            'last_name',
+            'email',
+            'contact_number',
+            'address',
+            'service_type',
+            'domain_name',
+            'domain_renewal',
+            'domain_renewal_type',
+            'plan_id',
+            'hosting_renewal',
+            'hosting_renewal_type',
+            'annual_maintenance_cost_type',
+            'annual_maintenance_cost'
+        ])
+            ->with('plan:id,title')
+            ->orderBy('created_at', 'DESC')
+            ->paginate(10);
         return view('clients.index', compact(
-            'domainRenewal',
-            'hostingRenewal',
-            'annualMaintenanceCostType',
+            // 'domainRenewal',
+            // 'hostingRenewal',
+            // 'annualMaintenanceCostType',
             'clients'
         ));
     }

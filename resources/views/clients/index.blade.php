@@ -14,8 +14,8 @@
                 <th scope="col">Email</th>
                 <th scope="col">Contact No.</th>
                 <th scope="col">Address</th>
+                <th scope="col">Service Type</th>
                 <th scope="col">Domain Name</th>
-                <th scope="col">Expiry Date</th>
                 <th scope="col">Domain Renewal</th>
                 <th scope="col">Plan</th>
                 <th scope="col">Hosting Renewal</th>
@@ -32,11 +32,11 @@
                         <td>{{ $client->email }}</td>
                         <td>{{ $client->contact_number }}</td>
                         <td>{{ $client->address }}</td>
+                        <td>{{ $client->service_type }}</td>
                         <td>{{ $client->domain_name }}</td>
-                        <td>{{ $client->expiry_date }}</td>
-                        <td>{{ $client->domain_renewal }}</td>
-                        <td>{{ $client->plan_id }}</td>
-                        <td>{{ $client->hosting_renewal }}</td>
+                        <td>{{ isset($client->domain_renewal) ? $client->domain_renewal.' '.$client->domain_renewal_type : '' }}</td>
+                        <td>{{ $client->plan->title }}</td>
+                        <td>{{ isset($client->hosting_renewal) ? $client->hosting_renewal.' '.$client->hosting_renewal_type : '' }}</td>
                         <td>{{ $client->annual_maintenance_cost_type }}</td>
                         <td>{{ $client->annual_maintenance_cost }}</td>
                         <td>
