@@ -54,15 +54,11 @@ class ClientController extends Controller
     {
         $serviceType = $this->model::SERVICE_TYPE;
         $renewalType = $this->model::RENEWAL_TYPE;
-        $domainRenewal = $this->model::DOMAIN_RENEWAL;
-        $hostingRenewal = $this->model::HOSTING_RENEWAL;
         $annualMaintenanceCostType = $this->model::ANNUAL_MAINTENACE_COST_TYPE;
         $plans = Plan::select('id', 'slug', 'title')->where('status', 1)->get();
         return view('clients.create', compact(
             'serviceType',
             'renewalType',
-            'domainRenewal',
-            'hostingRenewal',
             'annualMaintenanceCostType',
             'plans'
         ));
