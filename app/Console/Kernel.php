@@ -5,7 +5,9 @@ namespace App\Console;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use App\Client;
+use App\User;
 use App\Jobs\SendEmailJob;
+use App\Jobs\SendEmailUserJob;
 use Carbon\Carbon;
 
 class Kernel extends ConsoleKernel
@@ -32,7 +34,8 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $clients = Client::select('id', 'first_name', 'email', 'hosting_renewal', 'hosting_renewal_type', 'domain_renewal', 'domain_renewal_type', 'updated_at')->get();
+        $clients = Client::select('id', 'first_name', 'last_name', 'email', 'hosting_renewal', 'hosting_renewal_type', 'domain_renewal', 'domain_renewal_type', 'updated_at')->get();
+        $users = User::select('email', 'name')->get();
         $currentDate = Carbon::now()->format('Y-m-d');
         if(isset($clients)) {
             foreach( $clients as $client) {
@@ -47,9 +50,11 @@ class Kernel extends ConsoleKernel
                         $client->updated_at->addMonths($client->hosting_renewal)->subDays(5)->format('Y-m-d');
                     if($currentDate == $expiry_date) {
                         $schedule->job(new SendEmailJob($client->email, $client->first_name))->dailyAt('9:00');
+                        foreach ($users as $user) {
+                            SendEmailUserJob::dispatch($user->email, $user->name, $client->first_name, $client->last_name, $expiry_date);
+                        }
                         // $schedule->job(new SendEmailJob($client->email, $client->first_name))->everyMinute();
                     }
-                    // $schedule->job(new SendEmailJob($client->email))->monthlyOn($client->updated_at->format('d'), '9:00');
                 } else if($client->domain_renewal_type == 'Year' || $client->hosting_renewal_type == 'Year') {
                     // $expiry_date = isset($client->domain_renewal) ?
                     //     $client->updated_at->format('Y-m-d')
@@ -61,6 +66,9 @@ class Kernel extends ConsoleKernel
                         $client->updated_at->addYears($client->hosting_renewal)->subMonths(1)->format('Y-m-d');
                     if($currentDate == $expiry_date) {
                         $schedule->job(new SendEmailJob($client->email, $client->first_name))->dailyAt('9:00');
+                        foreach ($users as $user) {
+                            SendEmailUserJob::dispatch($user->email, $user->name, $client->first_name, $client->last_name, $expiry_date);
+                        }
                         // $schedule->job(new SendEmailJob($client->email, $client->first_name))->everyMinute();
                     }
                 }

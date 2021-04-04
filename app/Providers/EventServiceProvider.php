@@ -6,6 +6,7 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Event;
+use App\Jobs\SendEmailUserJob;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -29,6 +30,9 @@ class EventServiceProvider extends ServiceProvider
     {
         parent::boot();
 
-        //
+        // $this->app->bind(SendEmailUserJob::class.'@handle',fn($job)=>$job->handle());
+        \App::bindMethod(SendEmailUserJob::class . '@handle', function($job) {
+            return $job->handle();
+        });
     }
 }

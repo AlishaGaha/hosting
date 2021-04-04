@@ -3,6 +3,13 @@
 @section('content')
     <div class="container">
         @include('includes.flash_notification')
+        <div class="filter-form"
+            style="background-color: whitesmoke; border: 1px solid rgb(236, 235, 233); margin: 3rem 0px; padding: 1rem;">
+            <form action="{{ route('clients.index')}}" method="GET">
+                @include('clients.includes.index_filter_form')
+                <button type="submit" class="btn btn-primary">Filter</button>
+              </form>
+        </div>
         <a href="{{ route('clients.create') }}" class="btn btn-primary">
             Add Client
         </a>
@@ -10,7 +17,7 @@
             <thead>
               <tr>
                 <th scope="col">#</th>
-                <th scope="col" style="width: 200px!important;">Client Name</th>
+                <th scope="col" style="width: 200px !important;">Client Name</th>
                 <th scope="col">Email</th>
                 <th scope="col">Contact No.</th>
                 <th scope="col">Address</th>
@@ -35,7 +42,7 @@
                         <td>{{ $client->service_type }}</td>
                         <td>{{ $client->domain_name }}</td>
                         <td>{{ isset($client->domain_renewal) ? $client->domain_renewal.' '.$client->domain_renewal_type : '' }}</td>
-                        <td>{{ $client->plan->title }}</td>
+                        <td>{{ $client->title }}</td>
                         <td>{{ isset($client->hosting_renewal) ? $client->hosting_renewal.' '.$client->hosting_renewal_type : '' }}</td>
                         <td>{{ $client->annual_maintenance_cost_type }}</td>
                         <td>{{ $client->annual_maintenance_cost }}</td>

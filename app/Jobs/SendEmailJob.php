@@ -38,6 +38,6 @@ class SendEmailJob implements ShouldQueue
             'body' => 'Your subscription for domain and hosting service is expired. Please contain to renew it.'
         ];
 
-        Mail::to($this->email)->send(new Gmail($details, $this->name));
+        Mail::to($this->email)->queue(new Gmail($details, $this->name));
     }
 }
