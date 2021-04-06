@@ -26,9 +26,20 @@ Route::get('/home', 'HomeController@index')->name('home');
 // Route::get('/plans/{slug}/edit', 'PlanController@edit')->name('plans.edit');
 // Route::put('/plans/{slug}', 'PlanController@update')->name('plans.update');
 // Route::delete('/plans/{slug}', 'PlanController@destroy')->name('plans.destroy');
-Route::resource('plans', 'PlanController')->except([
-    'show'
-]);
+Route::group(['middleware' => 'auth' ], function () {
+    Route::resource('users', 'UserController');
+    Route::resource('plans', 'PlanController')->except([
+        'show'
+    ]);
+    Route::resource('clients', 'ClientController')->except([
+        'show',
+        'destroy'
+    ]);
+
+    Route::get('roles', ['as' => 'roles.index', 'uses' => 'RoleController@index']);
+    Route::get('roles/{id}/edit', ['as' => 'roles.edit', 'uses' => 'RoleController@edit']);
+    Route::put('roles/{id}', ['as' => 'roles.update', 'uses' => 'RoleController@update']);
+});
 Route::resource('hosting-renewal', 'HostingRenewalController')->except([
     'show'
 ]);
@@ -38,10 +49,7 @@ Route::resource('domain-renewal', 'DomainController')->except([
 Route::resource('blogs', 'BlogController')->except([
     'show'
 ]);
-Route::resource('clients', 'ClientController')->except([
-    'show',
-    'destroy'
-]);
+
 // Route::get('/clients', 'ClientController@index')->name('clients.index');
 // Route::get('/clients/create', 'ClientController@create')->name('clients.create');
 // Route::post('/clients', 'ClientController@store')->name('clients.store');

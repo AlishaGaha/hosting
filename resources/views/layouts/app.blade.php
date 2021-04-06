@@ -51,7 +51,12 @@
                         @else
                             <li class="nav-item dropdown d-flex flex-row">
                                 <div>
-                                    <a href="{{ route('clients.index') }}" class="btn btn-primary">
+                                    <a href="{{ route('users.index') }}" class="btn btn-primary">
+                                       Users
+                                    </a>
+                                </div>
+                                <div>
+                                    <a href="{{ route('clients.index') }}" class="btn btn-info">
                                        Clients
                                     </a>
                                 </div>
@@ -61,11 +66,13 @@
                                     </a>
                                 </div>
                                 <div>
-                                    <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                        {{ Auth::user()->name }}
+                                    <a href="{{ route('roles.index') }}" class="btn btn-warning">
+                                        Roles
                                     </a>
                                 </div>
-
+                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                    {{ Auth::user()->name }}
+                                </a>
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();

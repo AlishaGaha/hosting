@@ -36,4 +36,26 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function userDetail()
+    {
+        return $this->hasOne('\App\UserDetail');
+    }
+
+    public function roles()
+    {
+        return $this->belongsToMany(Role::class);
+    }
+
+    public function isUserDeletable()
+    {
+        if($this->email == 'root@admin.com') {
+            return false;
+        }
+         if($this->email == auth()->user()->email) {
+             return false;
+         }
+
+         return true;
+    }
 }
