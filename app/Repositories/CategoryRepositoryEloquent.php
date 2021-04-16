@@ -4,21 +4,17 @@ namespace App\Repositories;
 
 use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Criteria\RequestCriteria;
-use App\Repositories\PostRepository;
-use App\Entities\Post;
-use App\Validators\PostValidator;
+use App\Repositories\CategoryRepository;
+use App\Entities\Category;
+use App\Validators\CategoryValidator;
 
 /**
- * Class PostRepositoryEloquent.
+ * Class CategoryRepositoryEloquent.
  *
  * @package namespace App\Repositories;
  */
-class PostRepositoryEloquent extends BaseRepository implements PostRepository
+class CategoryRepositoryEloquent extends BaseRepository implements CategoryRepository
 {
-    protected $fieldSearchable = [
-        'title' => 'like',
-        'categories.id'
-    ];
     /**
      * Specify Model class name
      *
@@ -26,7 +22,7 @@ class PostRepositoryEloquent extends BaseRepository implements PostRepository
      */
     public function model()
     {
-        return Post::class;
+        return Category::class;
     }
 
     /**
@@ -37,7 +33,7 @@ class PostRepositoryEloquent extends BaseRepository implements PostRepository
     public function validator()
     {
 
-        return PostValidator::class;
+        return CategoryValidator::class;
     }
 
 
@@ -48,11 +44,5 @@ class PostRepositoryEloquent extends BaseRepository implements PostRepository
     {
         $this->pushCriteria(app(RequestCriteria::class));
     }
-
-    public function create(array $attributes)
-    {
-        $model = $this->model;
-        return $model->create($attributes);
-    }
-
+    
 }

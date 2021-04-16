@@ -7,7 +7,7 @@
         </div>
         <div class="row">
             <div class="col-md-6 offset-md-3">
-                <h2 class="text-center mt-3 mb-5">Add Posts</h2>
+                <h2 class="text-center mt-3 mb-5">Add {{$panel}}</h2>
                 <form action="{{ route($base_route.'.store') }}" method="POST">
                     @csrf
 

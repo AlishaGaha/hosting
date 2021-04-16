@@ -61,7 +61,12 @@
                                     </a>
                                 </div>
                                 <div>
-                                    <a href="{{ route('clients.index') }}" class="btn btn-info">
+                                    <a href="{{ route('categories.index') }}" class="btn btn-info">
+                                       Categories
+                                    </a>
+                                </div>
+                                <div>
+                                    <a href="{{ route('clients.index') }}" class="btn btn-primary">
                                        Clients
                                     </a>
                                 </div>

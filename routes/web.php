@@ -40,6 +40,7 @@ Route::group(['middleware' => 'auth' ], function () {
     Route::get('roles/{id}/edit', ['as' => 'roles.edit', 'uses' => 'RoleController@edit']);
     Route::put('roles/{id}', ['as' => 'roles.update', 'uses' => 'RoleController@update']);
     Route::resource('posts', 'PostsController');
+    Route::resource('categories', 'CategoriesController');
 });
 Route::resource('hosting-renewal', 'HostingRenewalController')->except([
     'show'

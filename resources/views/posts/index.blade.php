@@ -3,6 +3,13 @@
 @section('content')
     <div class="container">
         @include('includes.flash_notification')
+        <div class="filter-form"
+            style="background-color: whitesmoke; border: 1px solid rgb(236, 235, 233); margin: 3rem 0px; padding: 1rem;">
+            <form action="{{ route($base_route.'.index')}}" method="GET">
+                @include($view.'.includes.index_filter_form')
+                <button type="submit" class="btn btn-primary">Filter</button>
+              </form>
+        </div>
         <div>
             <a href="{{ route($base_route.'.create') }}" class="btn btn-primary">Add Post</a>
         </div>

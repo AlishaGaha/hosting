@@ -7,39 +7,38 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use Prettus\Validator\Contracts\ValidatorInterface;
 use Prettus\Validator\Exceptions\ValidatorException;
-use App\Http\Requests\PostCreateRequest;
-use App\Http\Requests\PostUpdateRequest;
-use App\Repositories\PostRepository;
-use App\Validators\PostValidator;
-use App\Criteria\Post\PostCriteria;
-use App\Entities\Category;
+use App\Http\Requests\CategoryCreateRequest;
+use App\Http\Requests\CategoryUpdateRequest;
+use App\Repositories\CategoryRepository;
+use App\Validators\CategoryValidator;
 
 /**
- * Class PostsController.
+ * Class CategoriesController.
  *
  * @package namespace App\Http\Controllers;
  */
-class PostsController extends BaseController
+class CategoriesController extends BaseController
 {
     /**
-     * @var PostRepository
+     * @var CategoryRepository
      */
     protected $repository;
-    protected $base_route = 'posts';
-    protected $view = 'posts';
-    protected $panel = 'Post';
+    protected $base_route = 'categories';
+    protected $view = 'categories';
+    protected $panel = 'Category';
+
     /**
-     * @var PostValidator
+     * @var CategoryValidator
      */
     protected $validator;
 
     /**
-     * PostsController constructor.
+     * CategoriesController constructor.
      *
-     * @param PostRepository $repository
-     * @param PostValidator $validator
+     * @param CategoryRepository $repository
+     * @param CategoryValidator $validator
      */
-    public function __construct(PostRepository $repository, PostValidator $validator)
+    public function __construct(CategoryRepository $repository, CategoryValidator $validator)
     {
         $this->repository = $repository;
         $this->validator  = $validator;
@@ -53,45 +52,42 @@ class PostsController extends BaseController
     public function index()
     {
         $this->repository->pushCriteria(app('Prettus\Repository\Criteria\RequestCriteria'));
-        $posts = $this->repository->paginate(10, $columns = ['id', 'title', 'body', 'user_id']);
-        // dd($posts);
+        $categories = $this->repository->all();
+
         if (request()->wantsJson()) {
 
             return response()->json([
-                'data' => $posts,
+                'data' => $categories,
             ]);
         }
 
-        return view(parent::loadDefaultDataToView($this->view.'.index'), compact('posts'));
+        return view(parent::loadDefaultDataToView($this->view.'.index'), compact('categories'));
     }
 
     public function create()
     {
-        $categories = Category::select(['id', 'name'])->get();
-        return view(parent::loadDefaultDataToView($this->view.'.create'), compact('categories'));
+        return view(parent::loadDefaultDataToView($this->view.'.create'));
     }
-
     /**
      * Store a newly created resource in storage.
      *
-     * @param  PostCreateRequest $request
+     * @param  CategoryCreateRequest $request
      *
      * @return \Illuminate\Http\Response
      *
      * @throws \Prettus\Validator\Exceptions\ValidatorException
      */
-    public function store(PostCreateRequest $request)
+    public function store(CategoryCreateRequest $request)
     {
         try {
 
             $this->validator->with($request->all())->passesOrFail(ValidatorInterface::RULE_CREATE);
-            $validatedData = $request->validated();
-            $validatedData['user_id'] = auth()->user()->id;
-            $post = $this->repository->create($validatedData);
-            $post->categories()->sync($validatedData['categories']);
+
+            $category = $this->repository->create($request->all());
+
             $response = [
-                'message' => 'Post created.',
-                'data'    => $post->toArray(),
+                'message' => 'Category created.',
+                'data'    => $category->toArray(),
             ];
 
             if ($request->wantsJson()) {
@@ -121,16 +117,16 @@ class PostsController extends BaseController
      */
     public function show($id)
     {
-        $post = $this->repository->find($id);
-        // dd($post->user->userDetail->first_name);
+        $category = $this->repository->find($id);
+
         if (request()->wantsJson()) {
 
             return response()->json([
-                'data' => $post,
+                'data' => $category,
             ]);
         }
 
-        return view(parent::loadDefaultDataToView($this->view.'.show'), compact('post'));
+        return view(parent::loadDefaultDataToView($this->view.'.show'), compact('category'));
     }
 
     /**
@@ -142,37 +138,32 @@ class PostsController extends BaseController
      */
     public function edit($id)
     {
-        $post = $this->repository->find($id);
-        $categories = Category::select(['id', 'name'])->get();
-        $category_post = $post->categories()->pluck('categories.id')->toArray();
-        return view(parent::loadDefaultDataToView($this->view.'.edit'), compact(
-            'post',
-            'categories',
-            'category_post'
-        ));
+        $category = $this->repository->find($id);
+
+        return view(parent::loadDefaultDataToView($this->view.'.edit'), compact('category'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  PostUpdateRequest $request
+     * @param  CategoryUpdateRequest $request
      * @param  string            $id
      *
      * @return Response
      *
      * @throws \Prettus\Validator\Exceptions\ValidatorException
      */
-    public function update(PostUpdateRequest $request, $id)
+    public function update(CategoryUpdateRequest $request, $id)
     {
         try {
+
             $this->validator->with($request->all())->passesOrFail(ValidatorInterface::RULE_UPDATE);
-            $validatedData = $request->validated();
-            $validatedData['user_id'] = auth()->user()->id;
-            $post = $this->repository->update($validatedData, $id);
-            $post->categories()->sync($validatedData['categories']);
+
+            $category = $this->repository->update($request->all(), $id);
+
             $response = [
-                'message' => 'Post updated.',
-                'data'    => $post->toArray(),
+                'message' => 'Category updated.',
+                'data'    => $category->toArray(),
             ];
 
             if ($request->wantsJson()) {
@@ -210,11 +201,11 @@ class PostsController extends BaseController
         if (request()->wantsJson()) {
 
             return response()->json([
-                'message' => 'Post deleted.',
+                'message' => 'Category deleted.',
                 'deleted' => $deleted,
             ]);
         }
 
-        return redirect()->back()->with('message', 'Post deleted.');
+        return redirect()->back()->with('message', 'Category deleted.');
     }
 }
