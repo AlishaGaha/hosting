@@ -56,12 +56,17 @@
                                     </a>
                                 </div>
                                 <div>
+                                    <a href="{{ route('posts.index') }}" class="btn btn-success">
+                                       Posts
+                                    </a>
+                                </div>
+                                <div>
                                     <a href="{{ route('clients.index') }}" class="btn btn-info">
                                        Clients
                                     </a>
                                 </div>
                                 <div>
-                                    <a href="{{ route('plans.index') }}" class="btn btn-success">
+                                    <a href="{{ route('plans.index') }}" class="btn btn-default">
                                         Hosting Plans
                                     </a>
                                 </div>

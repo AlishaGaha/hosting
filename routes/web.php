@@ -39,11 +39,12 @@ Route::group(['middleware' => 'auth' ], function () {
     Route::get('roles', ['as' => 'roles.index', 'uses' => 'RoleController@index']);
     Route::get('roles/{id}/edit', ['as' => 'roles.edit', 'uses' => 'RoleController@edit']);
     Route::put('roles/{id}', ['as' => 'roles.update', 'uses' => 'RoleController@update']);
+    Route::resource('posts', 'PostsController');
 });
 Route::resource('hosting-renewal', 'HostingRenewalController')->except([
     'show'
 ]);
-Route::resource('domain-renewal', 'DomainController')->except([
+Route::resource('domain-renewal', 'DomainRenewalController')->except([
     'show'
 ]);
 Route::resource('blogs', 'BlogController')->except([
