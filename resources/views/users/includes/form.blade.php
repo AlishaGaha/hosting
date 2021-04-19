@@ -91,7 +91,7 @@
     <div class="col-sm-9">
         @forelse ($roles as $role)
             <div class="form-check">
-                <input class="form-check-input" type="checkbox" name="roles[]" value="{{ $role->id }}" {!! array_key_exists($role->id, $data['user_roles']) ? 'checked' : '' !!} id="{{$role->slug}}">
+                <input class="form-check-input" type="checkbox" name="roles[]" value="{{ $role->id }}" {!! isset($data['row']) ? array_key_exists($role->id, $data['user_roles']) ? 'checked' : '' : '' !!} id="{{$role->slug}}">
                 <label class="form-check-label" for="{{$role->slug}}">
                     {{ $role->name }}
                 </label>

@@ -34,7 +34,7 @@ class Post extends Model implements Transformable
 
     public function categories()
     {
-        return $this->belongsToMany('\App\Entities\Category');
+        return $this->belongsToMany('\App\Entities\Category', 'category_post','post_id','category_id');
     }
 
 }

@@ -20,6 +20,7 @@
                 <th scope="col" style="width: 200px">Title</th>
                 <th scope="col">Body</th>
                 <th scope="col">Created By</th>
+                <th scope="col">Category</th>
                 <th scope="col">Action</th>
               </tr>
             </thead>
@@ -30,6 +31,11 @@
                         <td>{{ $post->title }}</td>
                         <td>{{ Str::limit($post->body, 50) }}</td>
                         <td>{{ $post->user->userDetail->first_name.' '.$post->user->userDetail->last_name }}</td>
+                        <td>
+                            @foreach ($post->categories as $category)
+                                {{$category->name .','}}
+                            @endforeach
+                        </td>
                         <td>
                             {{-- <button class="btn btn-sm btn-danger">Delete</button> --}}
                             <form action="{{ route($base_route.'.destroy', $post->id)}}" method="post">

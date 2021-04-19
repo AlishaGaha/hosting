@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
 use App\Http\Requests;
 use Prettus\Validator\Contracts\ValidatorInterface;
 use Prettus\Validator\Exceptions\ValidatorException;
@@ -13,6 +12,7 @@ use App\Repositories\PostRepository;
 use App\Validators\PostValidator;
 use App\Criteria\Post\PostCriteria;
 use App\Entities\Category;
+// use App\Criteria\Post\PostCriteria;
 
 /**
  * Class PostsController.
@@ -50,11 +50,16 @@ class PostsController extends BaseController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $this->repository->pushCriteria(app('Prettus\Repository\Criteria\RequestCriteria'));
+        // $this->repository->pushCriteria(app('Prettus\Repository\Criteria\RequestCriteria'));
+        $filters = [
+            'title' => $request->get('title'),
+            'category' => $request->get('category')
+        ];
+        $categories = Category::select(['id', 'name'])->get();
+        $this->repository->pushCriteria(new PostCriteria($filters));
         $posts = $this->repository->paginate(10, $columns = ['id', 'title', 'body', 'user_id']);
-        // dd($posts);
         if (request()->wantsJson()) {
 
             return response()->json([
@@ -62,7 +67,7 @@ class PostsController extends BaseController
             ]);
         }
 
-        return view(parent::loadDefaultDataToView($this->view.'.index'), compact('posts'));
+        return view(parent::loadDefaultDataToView($this->view.'.index'), compact('posts', 'filters', 'categories'));
     }
 
     public function create()
@@ -205,6 +210,8 @@ class PostsController extends BaseController
      */
     public function destroy($id)
     {
+        $post = $this->repository->find($id);
+        $post->categories()->detach();
         $deleted = $this->repository->delete($id);
 
         if (request()->wantsJson()) {
